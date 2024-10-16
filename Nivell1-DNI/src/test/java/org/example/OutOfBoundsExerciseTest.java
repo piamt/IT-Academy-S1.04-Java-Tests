@@ -16,6 +16,6 @@ class OutOfBoundsExerciseTest {
         String expectedMessage = "this is an exception";
         String actualMessage = exception.getMessage();
 
-        assertTrue(actualMessage.contains(expectedMessage));
+        assertEquals(actualMessage, expectedMessage);
     }
 }

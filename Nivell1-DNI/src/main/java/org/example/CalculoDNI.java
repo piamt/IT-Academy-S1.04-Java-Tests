@@ -4,15 +4,10 @@ public class CalculoDNI {
 
     static final String characters="TRWAGMYFPDXBNJZSQVHLCKE";
 
-    public char getLetter(String dni) throws NumberFormatException
+    public char getLetter(String dni)
     {
-        try {
-            int intDNI = Integer.parseInt(dni);
-            int module= intDNI % 23;
-            return characters.charAt(module);
-        } catch (NumberFormatException e) {
-            System.out.println("Invalid integer");
-            throw e;
-        }
+        int intDNI = Integer.parseInt(dni);
+        int module= intDNI % 23;
+        return characters.charAt(module);
     }
 }
