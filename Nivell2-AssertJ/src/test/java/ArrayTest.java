@@ -3,6 +3,7 @@ import org.example.Person;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.testcontainers.shaded.com.github.dockerjava.core.dockerfile.DockerfileStatement;
 
 import java.util.*;
 
@@ -11,8 +12,15 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 public class ArrayTest {
 
+    String string;
+    Address address;
+    Person person;
+
     @BeforeEach
     void init() {
+        string = "Hello world!";
+        address = new Address("city", "street");
+        person = new Person("name", "surname", 16, address);
     }
 
     @Test
@@ -33,10 +41,6 @@ public class ArrayTest {
 
     @Test
     public void verifyArrayListOrder() {
-        String string = "Hello world!";
-        Address address = new Address("city", "street");
-        Person person = new Person("name", "surname", 16, address);
-
         List<Object> myList = new ArrayList<>();
         myList.add(address);
         myList.add(string);
@@ -47,10 +51,6 @@ public class ArrayTest {
 
     @Test
     public void verifyArrayListAnyOrder() {
-        String string = "Hello world!";
-        Address address = new Address("city", "street");
-        Person person = new Person("name", "surname", 16, address);
-
         List<Object> myList = new ArrayList<>();
         myList.add(address);
         myList.add(string);
@@ -61,10 +61,6 @@ public class ArrayTest {
 
     @Test
     public void verifyArrayListAnyUniqueObject() {
-        String string = "Hello world!";
-        Address address = new Address("city", "street");
-        Person person = new Person("name", "surname", 16, address);
-
         List<Object> myList = new ArrayList<>();
         myList.add(address);
         myList.add(string);
@@ -75,10 +71,6 @@ public class ArrayTest {
 
     @Test
     public void verifyArrayListDoesNotContainObject() {
-        String string = "Hello world!";
-        Address address = new Address("city", "street");
-        Person person = new Person("name", "surname", 16, address);
-
         List<Object> myList = new ArrayList<>();
         myList.add(address);
         myList.add(string);
@@ -88,10 +80,9 @@ public class ArrayTest {
 
     @Test
     public void verifyKeyInMap() {
-        Address address1 = new Address("city", "street");
         Address address2 = new Address("city2", "street2");
         Map<String, Address> map = new HashMap<>();
-        map.put("a", address1);
+        map.put("a", address);
         map.put("b", address2);
 
         assertThat(map).containsKey("a");
@@ -99,8 +90,6 @@ public class ArrayTest {
 
     @Test
     public void verifyThrowsIndexOutOfBounds() {
-        Address address = new Address("city", "street");
-        Person person = new Person("name", "surname", 16, address);
 
         assertThatThrownBy(() -> {
             Address[] array = person.getAddress();
@@ -118,5 +107,8 @@ public class ArrayTest {
 
     @AfterEach
     void tearDown() {
+        string = null;
+        address = null;
+        person = null;
     }
 }

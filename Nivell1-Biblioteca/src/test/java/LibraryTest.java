@@ -37,18 +37,15 @@ public class LibraryTest {
 
     @Test
     public void bookListHasExpectedSize() {
-        for (int i = 0; i < 10; i++) {
-            library.addBook(new Book("Book" + i));
-        }
+        add10BooksToLibrary();
+
         assertEquals(10, library.numberOfBooks());
         assertEquals(10, library.numberOfSortedBooks());
     }
 
     @Test
     public void expectedBookAtPosition() {
-        for (int i = 0; i < 10; i++) {
-            library.addBook(new Book("Book" + i));
-        }
+        add10BooksToLibrary();
         Book book = new Book("My book at position 3");
         library.addBookAtIndex(3, book);
 
@@ -57,28 +54,22 @@ public class LibraryTest {
 
     @Test
     public void expectedTitleAtPosition() {
-        for (int i = 0; i < 10; i++) {
-            library.addBook(new Book("Book" + i));
-        }
+        add10BooksToLibrary();
+
         assertEquals("Book9", library.getBookTitleAtIndex(9));
     }
 
     @Test
     public void noDuplicatesInBookList() {
-        for (int i = 0; i < 10; i++) {
-            library.addBook(new Book("Book" + i));
-        }
-
+        add10BooksToLibrary();
         library.addBook(new Book("Book4"));
+
         assertEquals(10, library.numberOfBooks());
     }
 
     @Test
     public void expectedListAfterAddingNewBook() {
-        for (int i = 0; i < 10; i++) {
-            library.addBook(new Book("Book" + i));
-        }
-
+       add10BooksToLibrary();
         library.addBook(new Book("BookNew"));
         library.addBookAtIndex(5, new Book("Book at index 5"));
 
@@ -88,50 +79,48 @@ public class LibraryTest {
 
     @Test
     public void expectedSizeAfterBookRemoved() {
-        for (int i = 0; i < 10; i++) {
-            library.addBook(new Book("Book" + i));
-        }
-
+        add10BooksToLibrary();
         library.removeBook("Book8");
+
         assertEquals(9, library.numberOfBooks());
     }
 
     @Test
     public void expectedAlphabeticalOrderAfterBookAdded() {
-        for (int i = 0; i < 10; i++) {
-            library.addBook(new Book("Book" + i));
-        }
-
+        add10BooksToLibrary();
         library.addBook(new Book("BookNew"));
 
-        List<Book> orderedList = library.getSortedBookList();
-        for (int i = 0; i < (orderedList.size() - 1); i++) {
-            assertTrue(orderedList.get(i).compareTo(orderedList.get(i+1)) < 0);
-        }
+        checkExpectedOrder();
     }
 
     @Test
     public void expectedAlphabeticalOrderAfterBookRemoved() {
-        for (int i = 0; i < 10; i++) {
-            library.addBook(new Book("Book" + i));
-        }
-
+        add10BooksToLibrary();
         library.removeBook("Book8");
-        List<Book> orderedList = library.getSortedBookList();
-        for (int i = 0; i < (orderedList.size() - 1); i++) {
-            assertTrue(orderedList.get(i).compareTo(orderedList.get(i+1)) < 0);
-        }
+
+        checkExpectedOrder();
     }
 
     @Test
     public void expectedBookListSameSize() {
+        add10BooksToLibrary();
+        library.removeBook("Book8");
+        library.addBookAtIndex(3, new Book("New book"));
+
+        assertEquals(library.getBookList().size(), library.getSortedBookList().size());
+    }
+
+    private void add10BooksToLibrary() {
         for (int i = 0; i < 10; i++) {
             library.addBook(new Book("Book" + i));
         }
+    }
 
-        library.removeBook("Book8");
-        library.addBookAtIndex(3, new Book("New book"));
-        assertEquals(library.getBookList().size(), library.getSortedBookList().size());
+    private void checkExpectedOrder() {
+        List<Book> orderedList = library.getSortedBookList();
+        for (int i = 0; i < (orderedList.size() - 1); i++) {
+            assertTrue(orderedList.get(i).compareTo(orderedList.get(i+1)) < 0);
+        }
     }
 
     @AfterEach

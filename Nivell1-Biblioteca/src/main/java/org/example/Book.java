@@ -2,9 +2,17 @@ package org.example;
 
 public class Book implements Comparable<Book> {
 
-    String title;
+    private String title;
 
     public Book(String title) {
+        this.title = title;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
         this.title = title;
     }
 

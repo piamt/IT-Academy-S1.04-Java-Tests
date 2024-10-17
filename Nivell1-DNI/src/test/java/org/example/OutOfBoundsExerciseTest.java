@@ -11,7 +11,7 @@ class OutOfBoundsExerciseTest {
     void execute() {
         OutOfBoundsExercise object = new OutOfBoundsExercise();
 
-        Exception exception = assertThrows(ArrayIndexOutOfBoundsException.class, object::execute);
+        Exception exception = assertThrows(ArrayIndexOutOfBoundsException.class, () -> object.execute(2));
 
         String expectedMessage = "this is an exception";
         String actualMessage = exception.getMessage();

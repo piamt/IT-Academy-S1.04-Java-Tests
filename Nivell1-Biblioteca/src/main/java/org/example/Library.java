@@ -9,7 +9,7 @@ public class Library {
     private SortedSet<Book> sortedBookList = new TreeSet<Book>();
 
     public void addBook(Book book) {
-        if (!isDuplicated(book)) {
+        if (book != null && !isDuplicated(book)) {
             bookList.add(book);
             sortedBookList.add(book);
         }
@@ -19,7 +19,7 @@ public class Library {
         boolean found = false;
         int i = 0;
         while(found == false && i < bookList.size()) {
-            if (bookList.get(i).title.equals(book.title)) {
+            if (bookList.get(i).getTitle().equals(book.getTitle())) {
                 found = true;
             }
             i++;
@@ -32,7 +32,7 @@ public class Library {
     }
 
     public List<String> getTitleList() {
-        return bookList.stream().map(x -> x.title).collect(Collectors.toList());
+        return bookList.stream().map(x -> x.getTitle()).collect(Collectors.toList());
     }
 
     public List<Book> getSortedBookList() {
@@ -41,29 +41,38 @@ public class Library {
 
     public void printBookList() {
         for(Book book : bookList) {
-            System.out.println(book.title);
+            System.out.println(book.getTitle());
         }
     }
 
     public void printSortedBookList() {
         for(Book book : sortedBookList) {
-            System.out.println(book.title);
+            System.out.println(book.getTitle());
         }
     }
 
-    public Book getBookAtIndex(int index) {
+    public Book getBookAtIndex(int index) throws IndexOutOfBoundsException {
+        if (bookList.size() <= index) {
+            throw new IndexOutOfBoundsException("Book at index does not exist");
+        }
         return bookList.get(index);
     }
 
-    public String getBookTitleAtIndex(int index) {
-        return bookList.get(index).title;
+    public String getBookTitleAtIndex(int index) throws IndexOutOfBoundsException {
+        return getBookAtIndex(index).getTitle();
     }
 
     public String getSortedBookTitleAtIndex(int index) {
-        return sortedBookList.stream().map(e -> e.title).toList().get(index);
+        if (sortedBookList.size() <= index) {
+            throw new IndexOutOfBoundsException("Book at index does not exist");
+        }
+        return sortedBookList.stream().map(e -> e.getTitle()).toList().get(index);
     }
 
-    public void addBookAtIndex(int index, Book book) {
+    public void addBookAtIndex(int index, Book book) throws IndexOutOfBoundsException {
+        if (index > bookList.size()) {
+            throw new IndexOutOfBoundsException("Trying to add book to a greater index than expected");
+        }
         if (!isDuplicated(book)) {
             bookList.add(index, book);
             sortedBookList.add(book);
@@ -71,7 +80,7 @@ public class Library {
     }
 
     public void removeBook(String title) {
-        bookList.removeIf(n-> Objects.equals(n.title, title));
+        bookList.removeIf(n-> Objects.equals(n.getTitle(), title));
         sortedBookList.remove(new Book(title));
     }
 
